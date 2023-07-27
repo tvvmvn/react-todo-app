@@ -22,6 +22,7 @@ export default function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [filter, setFilter] = useState('All');
 
+  // key state tracking
   console.log(tasks);
 
   function addTask(name) {
@@ -91,18 +92,14 @@ export default function App() {
 
   return (
     <div className="max-w-sm mx-auto mt-8 border p-8 bg-white">
-      {/* title */}
       <h1 className="text-2xl font-semibold text-center mb-4">TODO LIST &#128526; &#127928;</h1>
 
-      {/* form */}
       <Form addTask={addTask} />
 
-      {/* filter buttons */}
       <div className="flex flex-nowrap gap-1 mb-4">
         {filterButtons}
       </div>
 
-      {/* task list */}
       <h2 className="text-xl mb-4">
         <span className="font-semibold">{taskList.length} </span>
         task(s) remaining</h2>

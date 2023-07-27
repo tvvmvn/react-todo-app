@@ -1,15 +1,27 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Todo(props) {
+export default function Todo({ 
+  id, 
+  name, 
+  completed, 
+  deleteTask, 
+  toggleTaskCompleted, 
+  editTask 
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState("");
   const inputEl = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.editTask(props.id, newName);
+    editTask(id, newName);
     setIsEditing(false);
-    setNewName("")
+    setNewName("");
+  }
+
+  function handleCancel() {
+    setIsEditing(false);
+    setNewName("");
   }
 
   useEffect(() => {
@@ -20,22 +32,19 @@ export default function Todo(props) {
 
   const viewTemplate = (
     <>
-      {/* task name and checkbox */}
       <div className="flex mb-2">
         <label>
           <input
             type="checkbox"
             className="peer hidden"
-            checked={props.completed}
-            onChange={() => props.toggleTaskCompleted(props.id)}
+            checked={completed}
+            onChange={() => toggleTaskCompleted(id)}
           />
           <span className="text-xl peer-checked:line-through">
-            {props.name}
+            {name}
           </span>
         </label>
       </div>
-
-      {/* button group */}
       <div className="flex flex-nowrap gap-1">
         <button
           onClick={() => setIsEditing(true)}
@@ -45,7 +54,7 @@ export default function Todo(props) {
         </button>
         <button
           className="px-2 py-1 w-full mb-2 bg-red-500 text-white font-semibold"
-          onClick={() => props.deleteTask(props.id)}
+          onClick={() => deleteTask(id)}
         >
           Delete
         </button>
@@ -55,21 +64,18 @@ export default function Todo(props) {
 
   const editingTemplate = (
     <form onSubmit={handleSubmit}>
-      {/* task input */}
       <input
         type="text"
         className="border px-2 py-1 w-full mb-2"
-        value={newName || props.name}
+        value={newName}
         onChange={(e) => setNewName(e.target.value)}
         ref={inputEl}
       />
-
-      {/* button group */}
       <div className="flex flex-nowrap gap-1">
         <button
           type="button"
           className="border-2 font-semibold w-1/2 p-1 border"
-          onClick={() => setIsEditing(false)}
+          onClick={handleCancel}
         >
           Cancel
         </button>
