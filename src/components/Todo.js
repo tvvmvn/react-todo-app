@@ -9,19 +9,18 @@ export default function Todo({
   editTask 
 }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(name);
   const inputEl = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
     editTask(id, newName);
     setIsEditing(false);
-    setNewName("");
   }
 
   function handleCancel() {
-    setIsEditing(false);
-    setNewName("");
+    setIsEditing(false)
+    setNewName(name)
   }
 
   useEffect(() => {
@@ -82,7 +81,7 @@ export default function Todo({
         <button
           type="submit"
           className="w-1/2 p-1 disabled:opacity-50 bg-blue-500 text-white font-semibold"
-          disabled={!newName.trim()}
+          disabled={name === newName}
         >
           Save
         </button>
