@@ -25,7 +25,9 @@ function seedData() {
   saveDoc(seed);
 }
 
-// seedData();
+if (!localStorage.getItem("tasks")) {
+  seedData();
+}
 
 export default function App() {
 
