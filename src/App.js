@@ -15,12 +15,22 @@ function saveDoc(tasks) {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-const initialTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+function seedData() {
+  const seed = [
+    { id: "todo-0", name: "Work out", completed: true },
+    { id: "todo-1", name: "Dance", completed: false },
+    { id: "todo-2", name: "Eat", completed: false },
+  ]
+
+  saveDoc(seed);
+}
+
+// seedData();
 
 export default function App() {
 
-  const [tasks, setTasks] = useState(initialTasks);
-  const [filter, setFilter] = useState('All');
+  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")));
+  const [filter, setFilter] = useState("All");
 
   // key state tracking
   console.log(tasks);
@@ -91,8 +101,10 @@ export default function App() {
   ))
 
   return (
-    <div className="max-w-sm mx-auto mt-8 border p-8 bg-white">
-      <h1 className="text-2xl font-semibold text-center mb-4">TODO LIST &#128526; &#127928;</h1>
+    <div className="max-w-sm mt-8 mx-auto px-4">
+      <h1 className="text-2xl font-semibold text-center my-4">
+        TODO LIST &#128526; &#127928;
+      </h1>
 
       <Form addTask={addTask} />
 
@@ -101,8 +113,9 @@ export default function App() {
       </div>
 
       <h2 className="text-xl mb-4">
-        <span className="font-semibold">{taskList.length} </span>
-        task(s) remaining</h2>
+        <span className="font-semibold">{taskList.length}</span>
+        {" "} task(s) remaining
+      </h2>
       <ul>
         {taskList}
       </ul>

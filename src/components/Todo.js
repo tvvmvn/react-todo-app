@@ -8,6 +8,7 @@ export default function Todo({
   toggleTaskCompleted, 
   editTask 
 }) {
+  
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(name);
   const inputEl = useRef(null);
