@@ -3,17 +3,6 @@ import Form from './components/Form';
 import Todo from './components/Todo';
 import FilterButton from './components/FilterButton';
 
-const FILTER_MAP = {
-  All: () => true,
-  Done: (task) => task.completed,
-  Active: (task) => !task.completed
-}
-
-const FILTER_NAMES = Object.keys(FILTER_MAP);
-
-function saveDoc(tasks) {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
 
 function seedData() {
   const seed = [
@@ -29,10 +18,22 @@ if (!localStorage.getItem("tasks")) {
   seedData();
 }
 
+function saveDoc(tasks) {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+const FILTER_MAP = {
+  전체: () => true,
+  완료: (task) => task.completed,
+  미완료: (task) => !task.completed
+}
+
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
 export default function App() {
 
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")));
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("전체");
 
   // key state tracking
   console.log(tasks);
@@ -81,6 +82,10 @@ export default function App() {
     setTasks(editedTasks);
   }
 
+  useEffect(() => {
+    document.title = "Todo List"
+  }, [])
+
   const filterButtons = FILTER_NAMES.map(name => (
     <FilterButton
       key={name}
@@ -105,18 +110,17 @@ export default function App() {
   return (
     <div className="max-w-sm mt-8 mx-auto px-4">
       <h1 className="text-2xl font-semibold text-center my-4">
-        TODO LIST &#128526; &#127928;
+        Todo List &#128526; &#127928;
       </h1>
 
       <Form addTask={addTask} />
 
-      <div className="flex flex-nowrap gap-1 mb-4">
+      <div className="grid grid-cols-3 gap-1 mb-4">
         {filterButtons}
       </div>
 
-      <h2 className="text-xl mb-4">
-        <span className="font-semibold">{taskList.length}</span>
-        {" "} task(s) remaining
+      <h2 className="font-semibold mb-4">
+        총 {taskList.length}개 있습니다
       </h2>
       <ul>
         {taskList}

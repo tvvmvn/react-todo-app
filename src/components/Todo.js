@@ -11,7 +11,7 @@ export default function Todo({
   
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(name);
-  const inputEl = useRef(null);
+  const inputRef = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -26,7 +26,7 @@ export default function Todo({
 
   useEffect(() => {
     if (isEditing) {
-      inputEl.current.focus();
+      inputRef.current.focus();
     }
   })
 
@@ -50,13 +50,13 @@ export default function Todo({
           onClick={() => setIsEditing(true)}
           className="border-2 font-semibold px-2 py-1 w-full mb-2"
         >
-          Edit
+          수정
         </button>
         <button
           className="px-2 py-1 w-full mb-2 bg-red-500 text-white font-semibold"
           onClick={() => deleteTask(id)}
         >
-          Delete
+          삭제
         </button>
       </div>
     </>
@@ -69,7 +69,7 @@ export default function Todo({
         className="border px-2 py-1 w-full mb-2"
         value={newName}
         onChange={(e) => setNewName(e.target.value)}
-        ref={inputEl}
+        ref={inputRef}
       />
       <div className="flex flex-nowrap gap-1">
         <button
@@ -77,14 +77,14 @@ export default function Todo({
           className="border-2 font-semibold w-1/2 p-1 border"
           onClick={handleCancel}
         >
-          Cancel
+          취소
         </button>
         <button
           type="submit"
           className="w-1/2 p-1 disabled:opacity-50 bg-blue-500 text-white font-semibold"
-          disabled={name === newName}
+          disabled={!newName || name === newName}
         >
-          Save
+          저장
         </button>
       </div>
     </form>
