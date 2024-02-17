@@ -2,7 +2,7 @@ export default function FilterButton({ name, isPressed, setFilter }) {
 
   return (
     <button
-      className="border-2 border-black p-1 font-semibold disabled:bg-black disabled:text-white"
+      className="p-2 disabled:font-bold"
       disabled={isPressed}
       onClick={() => setFilter(name)}
     >

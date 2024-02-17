@@ -6,93 +6,55 @@ export default function Todo({
   completed, 
   deleteTask, 
   toggleTaskCompleted, 
-  editTask 
+  editTask
 }) {
-  
-  const [isEditing, setIsEditing] = useState(false);
-  const [newName, setNewName] = useState(name);
-  const inputRef = useRef(null);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    editTask(id, newName);
-    setIsEditing(false);
-  }
+  function handleDelete() {
+    var q = window.confirm("Are you sure to delete?");
 
-  function handleCancel() {
-    setIsEditing(false)
-    setNewName(name)
-  }
-
-  useEffect(() => {
-    if (isEditing) {
-      inputRef.current.focus();
+    if (q) {
+      deleteTask(id);
     }
-  })
-
-  const viewTemplate = (
-    <>
-      <div className="flex mb-2">
-        <label>
-          <input
-            type="checkbox"
-            className="peer hidden"
-            checked={completed}
-            onChange={() => toggleTaskCompleted(id)}
-          />
-          <span className="text-xl peer-checked:line-through">
-            {name}
-          </span>
-        </label>
-      </div>
-      <div className="flex flex-nowrap gap-1">
-        <button
-          onClick={() => setIsEditing(true)}
-          className="border-2 font-semibold px-2 py-1 w-full mb-2"
-        >
-          수정
-        </button>
-        <button
-          className="px-2 py-1 w-full mb-2 bg-red-500 text-white font-semibold"
-          onClick={() => deleteTask(id)}
-        >
-          삭제
-        </button>
-      </div>
-    </>
-  );
-
-  const editingTemplate = (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="border px-2 py-1 w-full mb-2"
-        value={newName}
-        onChange={(e) => setNewName(e.target.value)}
-        ref={inputRef}
-      />
-      <div className="flex flex-nowrap gap-1">
-        <button
-          type="button"
-          className="border-2 font-semibold w-1/2 p-1 border"
-          onClick={handleCancel}
-        >
-          취소
-        </button>
-        <button
-          type="submit"
-          className="w-1/2 p-1 disabled:opacity-50 bg-blue-500 text-white font-semibold"
-          disabled={!newName || name === newName}
-        >
-          저장
-        </button>
-      </div>
-    </form>
-  )
+  }
 
   return (
-    <li className="mb-4">
-      {isEditing ? editingTemplate : viewTemplate}
-    </li>
-  )
+    <div className="flex items-center mb-3 border py-4 rounded-xl">
+      <label 
+        className="mx-4"
+      >
+        <input 
+          type="checkbox" 
+          id={id}
+          className="peer hidden"
+          checked={completed} 
+          onChange={() => toggleTaskCompleted(id)}
+        />
+        <svg 
+          className="w-6 fill-gray-200 peer-checked:fill-blue-400"
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 512 512"
+        >
+          <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z"/>
+        </svg>
+      </label>
+      <input
+        type="text"
+        className="grow outline-none"
+        value={name}
+        onChange={(e) => editTask(id, e.target.value)}
+      />
+      <button 
+        className="px-4"
+        onClick={handleDelete}
+      >
+        <svg 
+          className="w-2"
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 448 512"
+        >
+          <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/>
+        </svg>
+      </button>
+    </div>
+  );
 }

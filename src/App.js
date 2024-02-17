@@ -31,19 +31,19 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 export default function App() {
-
-  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")));
+  const initialTasks = JSON.parse(localStorage.getItem("tasks"));
+  const [tasks, setTasks] = useState(initialTasks);
   const [filter, setFilter] = useState("전체");
 
   // key state tracking
   console.log(tasks);
 
-  function addTask(name) {
-    const newTask = { id: `todo-${Date.now()}`, name, completed: false };
+  function addTask() {
+    const newTask = { id: `todo-${Date.now()}`, name: "", completed: false };
 
-    const updatedTasks = [...tasks, newTask];
+    const updatedTasks = [newTask, ...tasks];
 
-    saveDoc(updatedTasks)
+    saveDoc(updatedTasks);
 
     setTasks(updatedTasks);
   }
@@ -83,7 +83,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    document.title = "Todo List"
+    document.title = "Todo App";
   }, [])
 
   const filterButtons = FILTER_NAMES.map(name => (
@@ -110,12 +110,11 @@ export default function App() {
   return (
     <div className="max-w-sm mt-8 mx-auto px-4">
       <h1 className="text-2xl font-semibold text-center my-4">
-        Todo List &#128526; &#127928;
+        Todo App
       </h1>
 
-      <Form addTask={addTask} />
 
-      <div className="grid grid-cols-3 gap-1 mb-4">
+      <div className="flex mb-4">
         {filterButtons}
       </div>
 
@@ -125,6 +124,8 @@ export default function App() {
       <ul>
         {taskList}
       </ul>
+
+      <Form addTask={addTask} />
     </div>
   )
 }
