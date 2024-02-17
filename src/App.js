@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
-import Form from './components/Form';
 import Todo from './components/Todo';
-import FilterButton from './components/FilterButton';
-
 
 function seedData() {
   const seed = [
@@ -39,7 +36,11 @@ export default function App() {
   console.log(tasks);
 
   function addTask() {
-    const newTask = { id: `todo-${Date.now()}`, name: "", completed: false };
+    const newTask = {
+      id: `todo-${Date.now()}`,
+      name: "",
+      completed: false
+    };
 
     const updatedTasks = [newTask, ...tasks];
 
@@ -87,12 +88,13 @@ export default function App() {
   }, [])
 
   const filterButtons = FILTER_NAMES.map(name => (
-    <FilterButton
-      key={name}
-      name={name}
-      isPressed={filter === name}
-      setFilter={setFilter}
-    />
+    <button
+      className="mr-2 disabled:font-bold"
+      disabled={name === filter}
+      onClick={() => setFilter(name)}
+    >
+      {name}
+    </button>
   ))
 
   const taskList = tasks.filter(FILTER_MAP[filter]).map(task => (
@@ -108,24 +110,29 @@ export default function App() {
   ))
 
   return (
-    <div className="max-w-sm mt-8 mx-auto px-4">
-      <h1 className="text-2xl font-semibold text-center my-4">
+    <div className="max-w-sm mx-auto px-4">
+      <h1 className="text-2xl font-semibold text-center my-8">
         Todo App
       </h1>
-
 
       <div className="flex mb-4">
         {filterButtons}
       </div>
 
-      <h2 className="font-semibold mb-4">
+      <h2 className="mb-4">
         총 {taskList.length}개 있습니다
       </h2>
       <ul>
         {taskList}
       </ul>
 
-      <Form addTask={addTask} />
+      <button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg"
+        onClick={addTask}
+      >
+        Add
+      </button>
     </div>
   )
 }
