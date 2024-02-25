@@ -1,22 +1,14 @@
 import { useState, useEffect } from 'react'
 import Todo from './components/Todo';
 
-function seedData() {
-  const seed = [
-    { id: "todo-0", name: "Work out", completed: true },
-    { id: "todo-1", name: "Dance", completed: false },
-    { id: "todo-2", name: "Eat", completed: false },
-  ]
-
-  saveDoc(seed);
-}
+const SEED = [
+  { id: "todo-0", name: "Work out", completed: true },
+  { id: "todo-1", name: "Dance", completed: false },
+  { id: "todo-2", name: "Eat", completed: false },
+]
 
 if (!localStorage.getItem("tasks")) {
-  seedData();
-}
-
-function saveDoc(tasks) {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
+  localStorage.setItem("tasks", JSON.stringify(SEED));
 }
 
 const FILTER_MAP = {
@@ -35,6 +27,16 @@ export default function App() {
   // key state tracking
   console.log(tasks);
 
+  // synchronize localStorage
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  // title update
+  useEffect(() => {
+    document.title = "Todo App";
+  }, [])
+
   function addTask() {
     const newTask = {
       id: `todo-${Date.now()}`,
@@ -44,15 +46,11 @@ export default function App() {
 
     const updatedTasks = [newTask, ...tasks];
 
-    saveDoc(updatedTasks);
-
     setTasks(updatedTasks);
   }
 
   function deleteTask(id) {
     const remainingTasks = tasks.filter(task => task.id !== id);
-
-    saveDoc(remainingTasks)
 
     setTasks(remainingTasks);
   }
@@ -65,8 +63,6 @@ export default function App() {
       return task;
     })
 
-    saveDoc(updatedTasks)
-
     setTasks(updatedTasks);
   }
 
@@ -78,17 +74,12 @@ export default function App() {
       return task;
     })
 
-    saveDoc(editedTasks)
-
     setTasks(editedTasks);
   }
 
-  useEffect(() => {
-    document.title = "Todo App";
-  }, [])
-
   const filterButtons = FILTER_NAMES.map(name => (
     <button
+      key={name}
       className="mr-2 disabled:font-bold"
       disabled={name === filter}
       onClick={() => setFilter(name)}

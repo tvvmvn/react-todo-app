@@ -8,7 +8,7 @@ export default function Todo({
 }) {
 
   function handleDelete() {
-    var q = window.confirm("정말 삭제하시겠습니까?");
+    var q = window.confirm("삭제하시겠습니까?");
 
     if (q) {
       deleteTask(id);
