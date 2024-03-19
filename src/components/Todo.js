@@ -16,8 +16,8 @@ export default function Todo({
   }
 
   return (
-    <div className="flex items-center mb-3 border py-4 rounded-xl">
-      <label className="mx-4">
+    <div className="flex h-16 items-center mb-3 border rounded">
+      <label className="px-4">
         <input
           type="checkbox"
           id={id}
@@ -35,21 +35,15 @@ export default function Todo({
       </label>
       <input
         type="text"
-        className="grow outline-none"
+        className="grow outline-none focus:border-b focus:border-black"
         value={name}
         onChange={(e) => editTask(id, e.target.value)}
       />
       <button
-        className="px-4"
+        className="px-4 text-gray-400"
         onClick={handleDelete}
       >
-        <svg
-          className="w-2"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 448 512"
-        >
-          <path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
-        </svg>
+        -
       </button>
     </div>
   );

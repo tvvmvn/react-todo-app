@@ -7,8 +7,12 @@ const SEED = [
   { id: "todo-2", name: "Eat", completed: false },
 ]
 
-if (!localStorage.getItem("tasks")) {
-  localStorage.setItem("tasks", JSON.stringify(SEED));
+function saveData(tasks) {
+  localStorage.setItem('tasksData', JSON.stringify(tasks));
+}
+
+if (!localStorage.getItem("tasksData")) {
+  saveData(SEED);
 }
 
 const FILTER_MAP = {
@@ -20,7 +24,7 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 export default function App() {
-  const initialTasks = JSON.parse(localStorage.getItem("tasks"));
+  const initialTasks = JSON.parse(localStorage.getItem("tasksData"));
   const [tasks, setTasks] = useState(initialTasks);
   const [filter, setFilter] = useState("전체");
 
@@ -29,7 +33,7 @@ export default function App() {
 
   // synchronize localStorage
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    saveData(tasks);
   }, [tasks]);
 
   // title update
@@ -80,7 +84,7 @@ export default function App() {
   const filterButtons = FILTER_NAMES.map(name => (
     <button
       key={name}
-      className="mr-2 disabled:font-bold"
+      className="disabled:font-bold"
       disabled={name === filter}
       onClick={() => setFilter(name)}
     >
@@ -106,24 +110,25 @@ export default function App() {
         Todo App
       </h1>
 
-      <div className="flex mb-4">
-        {filterButtons}
+      <div className="flex justify-between mb-4">
+        <div className="flex gap-2 py-1">
+          {filterButtons}
+        </div>
+        <button
+          type="submit"
+          className="px-2 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold"
+          onClick={addTask}
+        >
+          새 할일 +
+        </button>
       </div>
 
-      <h2 className="mb-4">
+      <h2 className="mb-4 text-gray-500">
         총 {taskList.length}개 있습니다
       </h2>
       <ul>
         {taskList}
       </ul>
-
-      <button
-        type="submit"
-        className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg"
-        onClick={addTask}
-      >
-        Add
-      </button>
     </div>
   )
 }
