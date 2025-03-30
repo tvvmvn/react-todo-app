@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Todo from './components/Todo';
+import FilterButton from './components/FilterButton';
 
 const SEED = [
   { id: "todo-0", name: "Work out", completed: true },
@@ -82,14 +83,11 @@ export default function App() {
   }
 
   const filterButtons = FILTER_NAMES.map(name => (
-    <button
-      key={name}
-      className="disabled:font-bold"
-      disabled={name === filter}
-      onClick={() => setFilter(name)}
-    >
-      {name}
-    </button>
+    <FilterButton 
+      name={name} 
+      filter={filter} 
+      setFilter={setFilter} 
+    />
   ))
 
   const taskList = tasks.filter(FILTER_MAP[filter]).map(task => (
@@ -105,30 +103,44 @@ export default function App() {
   ))
 
   return (
-    <div className="max-w-sm mx-auto px-4">
-      <h1 className="text-2xl font-semibold text-center my-8">
-        Todo App
-      </h1>
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ width: "20rem", padding: "0 1rem" }}>
+        
+        {/* Logo */}
+        <h1 style={{ fontSize: "2rem", margin: "2rem 0", textAlign: "center" }}>
+          Todo App
+        </h1>
 
-      <div className="flex justify-between mb-4">
-        <div className="flex gap-2 py-1">
-          {filterButtons}
+          {/* Filter buttons */}
+          <div style={{ 
+            display: "flex", 
+            justifyContent: "space-between", 
+            margin: "1.5rem 0" }}
+          >
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              {filterButtons}
+            </div>
+            
+          {/* Add button (Mobile app doesn't need hover effect.) */}
+          <button
+            type="submit"
+            onClick={addTask}
+            style={{ fontSize: "1rem", fontWeight: "bold" }}
+          >
+            새 할일 +
+          </button>
         </div>
-        <button
-          type="submit"
-          className="px-2 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white font-semibold"
-          onClick={addTask}
-        >
-          새 할일 +
-        </button>
-      </div>
 
-      <h2 className="mb-4 text-gray-500">
-        총 {taskList.length}개 있습니다
-      </h2>
-      <ul>
-        {taskList}
-      </ul>
+        {/* The number of items */}
+        <h3 style={{ margin: "1rem 0" }}>
+          총 {taskList.length}개 있습니다
+        </h3>
+
+        {/* Task list */}
+        <ul> 
+          {taskList}
+        </ul>
+      </div>
     </div>
   )
 }
