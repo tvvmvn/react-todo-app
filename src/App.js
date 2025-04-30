@@ -2,19 +2,11 @@ import { useState, useEffect } from 'react'
 import Todo from './components/Todo';
 import FilterButton from './components/FilterButton';
 
-const SEED = [
-  { id: "todo-0", name: "Work out", completed: true },
-  { id: "todo-1", name: "Dance", completed: false },
-  { id: "todo-2", name: "Eat", completed: false },
+const DATA = [
+  { id: "todo-1", name: "Eat", completed: true },
+  { id: "todo-2", name: "Sleep", completed: false },
+  { id: "todo-3", name: "Repeat", completed: false },
 ]
-
-function saveData(tasks) {
-  localStorage.setItem('tasksData', JSON.stringify(tasks));
-}
-
-if (!localStorage.getItem("tasksData")) {
-  saveData(SEED);
-}
 
 const FILTER_MAP = {
   전체: () => true,
@@ -25,21 +17,16 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 export default function App() {
-  const initialTasks = JSON.parse(localStorage.getItem("tasksData"));
-  const [tasks, setTasks] = useState(initialTasks);
+  
+  const [tasks, setTasks] = useState(DATA);
   const [filter, setFilter] = useState("전체");
 
   // key state tracking
   console.log(tasks);
 
-  // synchronize localStorage
-  useEffect(() => {
-    saveData(tasks);
-  }, [tasks]);
-
   // title update
   useEffect(() => {
-    document.title = "Todo App";
+    document.title = "Todo List";
   }, [])
 
   function addTask() {
@@ -108,7 +95,7 @@ export default function App() {
         
         {/* Logo */}
         <h1 style={{ fontSize: "2rem", margin: "2rem 0", textAlign: "center" }}>
-          Todo App
+          Todo List
         </h1>
 
           {/* Filter buttons */}
@@ -127,7 +114,7 @@ export default function App() {
             onClick={addTask}
             style={{ fontSize: "1rem", fontWeight: "bold" }}
           >
-            새 할일 +
+            새 할일+
           </button>
         </div>
 
