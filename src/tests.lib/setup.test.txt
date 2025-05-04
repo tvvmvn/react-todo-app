@@ -1,0 +1,41 @@
+import { useState, useEffect } from 'react'
+import { render, screen, fireEvent } from '@testing-library/react';
+import Todo from '../components/Todo';
+
+
+describe('Todo suites', () => {
+
+  const task = { id: "todo-1", name: "Eat", completed: true }
+  
+  function setup(props) {
+
+    const { debug } = render(<Todo {...task} {...props} />);
+
+    const deleteButton = screen.getByText("-")
+    const checkBox = screen.getByLabelText("done")
+
+    return { checkBox, deleteButton }
+  }
+
+  test("Toggling a task", () => {
+
+    const props = { toggleTaskCompleted: jest.fn() }
+
+    const { checkBox } = setup(props)
+
+    fireEvent.click(checkBox)
+
+    expect(props.toggleTaskCompleted).toBeCalledWith("todo-1")
+  })
+  
+  test("Removing a task", () => {
+
+    const props = { deleteTask: jest.fn() }
+
+    const { deleteButton } = setup(props)
+
+    fireEvent.click(deleteButton)
+    
+    expect(props.deleteTask).toBeCalledWith("todo-1")
+  })
+});

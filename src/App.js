@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import Todo from './components/Todo';
+import AddButton from './components/AddButton';
 import FilterButton from './components/FilterButton';
+import Todo from './components/Todo';
 
 const DATA = [
   { id: "todo-1", name: "Eat", completed: true },
@@ -71,6 +72,7 @@ export default function App() {
 
   const filterButtons = FILTER_NAMES.map(name => (
     <FilterButton 
+      key={name}
       name={name} 
       filter={filter} 
       setFilter={setFilter} 
@@ -109,13 +111,7 @@ export default function App() {
             </div>
             
           {/* Add button (Mobile app doesn't need hover effect.) */}
-          <button
-            type="submit"
-            onClick={addTask}
-            style={{ fontSize: "1rem", fontWeight: "bold" }}
-          >
-            새 할일+
-          </button>
+          <AddButton addTask={addTask} />
         </div>
 
         {/* The number of items */}

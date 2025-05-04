@@ -1,0 +1,25 @@
+import { useState } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
+
+function App() {
+  
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>add</button>
+    </div>
+  )
+}
+
+test('App testing', () => {
+
+  const { debug } = render(<App />)
+
+  debug()
+
+  fireEvent.click(screen.getByRole("button"))
+
+  expect(screen.getByText("count: 1")).toBeInTheDocument()
+});

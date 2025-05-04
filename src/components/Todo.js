@@ -9,16 +9,10 @@ export default function Todo({
   editTask
 }) {
 
-  function handleDelete() {
-    var q = window.confirm("삭제하시겠습니까?");
-
-    if (q) {
-      deleteTask(id);
-    }
-  }
-
   return (
-    <div style={{ 
+    <div 
+      role="todo"
+      style={{ 
         display: "flex", 
         alignItems: "center", 
         border: "1px solid #ddd", 
@@ -28,7 +22,7 @@ export default function Todo({
     >
       
       {/* Checkbox */}
-      <label>
+      <label role="box">
         <input
           type="checkbox"
           id={id}
@@ -53,7 +47,7 @@ export default function Todo({
       {/* Delete button */}
       <button
         style={{ width: "1rem" }}
-        onClick={handleDelete}
+        onClick={() => deleteTask(id)}
       >
         -
       </button>

@@ -8,6 +8,7 @@ export default function FilterButton({ name, filter, setFilter }) {
         fontSize: "1rem",
         fontWeight: filter == name ? "bold" : "normal"
       }}
+      disabled={name == filter}
     >
       {name}
     </button>
